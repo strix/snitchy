@@ -16,6 +16,14 @@ const {
 axios.defaults.baseURL = 'https://api.twitch.tv/kraken'
 axios.defaults.headers.common['Client-ID'] = CLIENT_ID
 
+const localeFormat = {
+  weekday: 'short',
+  month: 'short',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit'
+}
+
 ;(async () => {
   try {
     const {
@@ -32,7 +40,7 @@ axios.defaults.headers.common['Client-ID'] = CLIENT_ID
         const compareEnd = DateTime.fromFormat(compareTime.end, compareFormat).toUTC()
         const compareInterval = Interval.fromDateTimes(compareStart, compareEnd)
         if (streamInterval.overlaps(compareInterval)) {
-          console.log(streamInterval.union(compareInterval))
+          console.log(streamInterval.start.toLocal().toLocaleString(localeFormat), '-', streamInterval.end.toLocal().toLocaleString(localeFormat))
         }
       }
     }
