@@ -24,8 +24,8 @@ axios.defaults.headers.common['Client-ID'] = CLIENT_ID
       }
     } = await axios(`/channels/${STREAM_ID}/videos?broadcast_type=archive&limit=100`)
     for (const vod of vods) {
-      const streamStart = DateTime.fromISO(vod.recorded_at)
-      const streamEnd = DateTime.fromISO(vod.recorded_at).minus({seconds: vod.length})
+      const streamStart = DateTime.fromISO(vod.recorded_at).minus({seconds: vod.length}).toUTC()
+      const streamEnd = DateTime.fromISO(vod.recorded_at).toUTC()
       const streamInterval = Interval.fromDateTimes(streamStart, streamEnd)
       for (const compareTime of compareTimes) {
         const compareStart = DateTime.fromFormat(compareTime.start, compareFormat).toUTC()
